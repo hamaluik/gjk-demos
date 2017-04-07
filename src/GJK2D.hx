@@ -118,21 +118,13 @@ class Simplex2D extends Shape2D {
         direction = new Direction2D(1, 0);
     }
 
-    function cross(a:Vec3, b:Vec3):Vec3 {
-        return new Vec3(
-            a.y * b.z - a.z * b.y,
-            a.z * b.x - a.x * b.z,
-            a.x * b.y - a.y * b.x
-        );
-    }
-
     function tripleProduct(a:Vec2, b:Vec2, c:Vec2):Vec2 {
         var A:Vec3 = new Vec3(a.x, a.y, 0);
         var B:Vec3 = new Vec3(b.x, b.y, 0);
         var C:Vec3 = new Vec3(c.x, c.y, 0);
 
-        var first:Vec3 = cross(A, B);
-        var second:Vec3 = cross(first, C);
+        var first:Vec3 = Vec3.cross(A, B, new Vec3());
+        var second:Vec3 = Vec3.cross(first, C, new Vec3());
 
         return new Vec2(second.x, second.y);
     }

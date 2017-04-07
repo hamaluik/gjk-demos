@@ -649,13 +649,6 @@ Simplex2D.prototype = $extend(Shape2D.prototype,{
 	container: null
 	,direction: null
 	,containsOrigin: null
-	,cross: function(a,b) {
-		var this1 = new Float32Array(4);
-		this1[0] = a[1] * b[2] - a[2] * b[1];
-		this1[1] = a[2] * b[0] - a[0] * b[2];
-		this1[2] = a[0] * b[1] - a[1] * b[0];
-		return this1;
-	}
 	,tripleProduct: function(a,b,c) {
 		var this1 = new Float32Array(4);
 		this1[0] = a[0];
@@ -672,12 +665,32 @@ Simplex2D.prototype = $extend(Shape2D.prototype,{
 		this3[1] = c[1];
 		this3[2] = 0;
 		var C = this3;
-		var first = this.cross(A,B);
-		var second = this.cross(first,C);
 		var this4 = new Float32Array(4);
-		this4[0] = second[0];
-		this4[1] = second[1];
-		return this4;
+		this4[0] = 0;
+		this4[1] = 0;
+		this4[2] = 0;
+		var dest = this4;
+		var this5 = new Float32Array(4);
+		this5[0] = A[1] * B[2] - A[2] * B[1];
+		this5[1] = A[2] * B[0] - A[0] * B[2];
+		this5[2] = A[0] * B[1] - A[1] * B[0];
+		dest = this5;
+		var first = dest;
+		var this6 = new Float32Array(4);
+		this6[0] = 0;
+		this6[1] = 0;
+		this6[2] = 0;
+		var dest1 = this6;
+		var this7 = new Float32Array(4);
+		this7[0] = first[1] * C[2] - first[2] * C[1];
+		this7[1] = first[2] * C[0] - first[0] * C[2];
+		this7[2] = first[0] * C[1] - first[1] * C[0];
+		dest1 = this7;
+		var second = dest1;
+		var this8 = new Float32Array(4);
+		this8[0] = second[0];
+		this8[1] = second[1];
+		return this8;
 	}
 	,addSupport: function() {
 		var newVert = this.container.support(this.direction);
@@ -2688,6 +2701,14 @@ glm__$Vec2_Vec2_$Impl_$.distance = function(a,b) {
 glm__$Vec2_Vec2_$Impl_$.dot = function(a,b) {
 	return a[0] * b[0] + a[1] * b[1];
 };
+glm__$Vec2_Vec2_$Impl_$.cross = function(a,b,dest) {
+	var this1 = new Float32Array(4);
+	this1[0] = 0;
+	this1[1] = 0;
+	this1[2] = a[0] * b[1] - a[1] * b[0];
+	dest = this1;
+	return dest;
+};
 glm__$Vec2_Vec2_$Impl_$.normalize = function(v,dest) {
 	var length = Math.sqrt(v[0] * v[0] + v[1] * v[1]);
 	var mult = 0;
@@ -2907,6 +2928,14 @@ glm__$Vec3_Vec3_$Impl_$.distance = function(a,b) {
 };
 glm__$Vec3_Vec3_$Impl_$.dot = function(a,b) {
 	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+};
+glm__$Vec3_Vec3_$Impl_$.cross = function(a,b,dest) {
+	var this1 = new Float32Array(4);
+	this1[0] = a[1] * b[2] - a[2] * b[1];
+	this1[1] = a[2] * b[0] - a[0] * b[2];
+	this1[2] = a[0] * b[1] - a[1] * b[0];
+	dest = this1;
+	return dest;
 };
 glm__$Vec3_Vec3_$Impl_$.normalize = function(v,dest) {
 	var length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
